@@ -16,8 +16,16 @@ defmodule Probex do
     GenServer.cast(name, :ready)
   end
 
-  def signal_unavailable(name) do
+  def signal_pending(name) do
     GenServer.cast(name, :unavailable)
+  end
+
+  def signal_alive(name) do
+    GenServer.cast(name, :alive)
+  end
+
+  def signal_unavailable(name) do
+    GenServer.cast(name, :dead)
   end
 
   def child_spec(opts) do
