@@ -3,19 +3,39 @@ defmodule Probex.Registry do
 
   use Supervisor
 
-  @registry_name :lightship_registry
+  @registry_name Registry.Probex
 
   @doc """
-  Returns the via tuple for a given process name on the Lightship Registry.
+  Returns the registered name of the Probex process registry.
   """
-  def name(process_name, suffix \\ "") do
-    {:via, Registry, {@registry_name, process_name <> suffix}}
+  @spec name() :: Registry.Probex
+  def name() do
+    @registry_name
   end
 
   @doc """
-  Starts a Lightship Registry process and links it to calling process.
+  Checks whether the Probex Registry process is started.
   """
-  def start_link(_) do
+  @spec started?() :: boolean()
+  def started?() do
+    case Process.whereis(@registry_name) do
+      pid when is_pid(pid) -> true
+      _ -> false
+    end
+  end
+
+  @doc """
+  Returns the via tuple for a given process name on the Probex Registry.
+  """
+  @spec via_tuple_from(any()) :: {:via, Registry, {Registry.Probex, any()}}
+  def via_tuple_from(process_name) do
+    {:via, Registry, {@registry_name, process_name}}
+  end
+
+  @doc """
+  Starts a Probex Registry process and links it to calling process.
+  """
+  def start_link() do
     Supervisor.start_link(__MODULE__, [], name: __MODULE__)
   end
 
