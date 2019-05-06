@@ -8,15 +8,20 @@ defmodule Probex.ProbeServer do
   end
 
   def ready?(name) do
-    GenServer.call(name, :get_ready_state)
+    name
+    |> Probex.Registry.via_tuple_from()
+    |> GenServer.call(:get_ready_state)
   end
 
   def live?(name) do
-    GenServer.call(name, :get_live_state)
+    name
+    |> Probex.Registry.via_tuple_from()
+    |> GenServer.call(:get_live_state)
   end
 
+  @spec start_link(atom()) :: :ignore | {:error, any()} | {:ok, pid()}
   def start_link(name) do
-    GenServer.start_link(__MODULE__, nil, name: name)
+    GenServer.start_link(__MODULE__, nil, name: Probex.Registry.via_tuple_from(name))
   end
 
   @impl true
