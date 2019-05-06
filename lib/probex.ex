@@ -13,19 +13,27 @@ defmodule Probex do
 
   """
   def signal_ready(name) do
-    GenServer.cast(name, :ready)
+    name
+    |> Probex.Registry.via_tuple_from("_server")
+    |> GenServer.cast(:ready)
   end
 
   def signal_pending(name) do
-    GenServer.cast(name, :unavailable)
+    name
+    |> Probex.Registry.via_tuple_from("_server")
+    |> GenServer.cast(:unavailable)
   end
 
   def signal_alive(name) do
-    GenServer.cast(name, :alive)
+    name
+    |> Probex.Registry.via_tuple_from("_server")
+    |> GenServer.cast(:alive)
   end
 
   def signal_unavailable(name) do
-    GenServer.cast(name, :dead)
+    name
+    |> Probex.Registry.via_tuple_from("_server")
+    |> GenServer.cast(:dead)
   end
 
   def child_spec(opts) do

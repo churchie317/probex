@@ -3,6 +3,7 @@ defmodule Probex.Supervisor do
 
   use Supervisor
 
+  @spec start_link(keyword()) :: :ignore | {:error, any()} | {:ok, pid()}
   def start_link(opts) do
     config = config_opts(opts)
 
@@ -15,7 +16,7 @@ defmodule Probex.Supervisor do
   def init(config) do
     Supervisor.init(
       [
-        {Probex.ProbeServer, config.name},
+        {Probex.Probe.Supervisor, config.name},
         {Plug.Cowboy,
          scheme: config.scheme,
          plug: {Probex.Plug, config.name},

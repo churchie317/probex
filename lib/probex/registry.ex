@@ -27,9 +27,9 @@ defmodule Probex.Registry do
   @doc """
   Returns the via tuple for a given process name on the Probex Registry.
   """
-  @spec via_tuple_from(any()) :: {:via, Registry, {Registry.Probex, any()}}
-  def via_tuple_from(process_name) do
-    {:via, Registry, {@registry_name, process_name}}
+  @spec via_tuple_from(any()) :: {:via, Registry, {atom(), String.t()}}
+  def via_tuple_from(process_name, suffix \\ "") do
+    {:via, Registry, {@registry_name, to_string(process_name) <> suffix}}
   end
 
   @doc """
@@ -41,11 +41,6 @@ defmodule Probex.Registry do
 
   @impl true
   def init(_) do
-    Supervisor.init(
-      [
-        {Registry, keys: :unique, name: @registry_name}
-      ],
-      strategy: :one_for_one
-    )
+    Supervisor.init([{Registry, keys: :unique, name: @registry_name}], strategy: :one_for_one)
   end
 end
