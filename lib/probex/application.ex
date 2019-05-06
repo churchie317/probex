@@ -4,9 +4,6 @@ defmodule Probex.Application do
   use Application
 
   def start(_type, _opts) do
-    Supervisor.start_link([Probex.Registry],
-      strategy: :one_for_one,
-      name: Probex.Supervisor
-    )
+    Probex.Registry.start_link()
   end
 end
