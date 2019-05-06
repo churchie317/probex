@@ -1,4 +1,4 @@
-defmodule Probex.Router do
+defmodule Probex.Plug.Router do
   use Plug.Router
 
   alias Probex.ProbeServer
@@ -10,7 +10,7 @@ defmodule Probex.Router do
     if ProbeServer.ready?(opts) do
       send_resp(conn, 200, "SERVICE_READY")
     else
-      send_resp(conn, 503, "SERVICE_UNAVAILABLE")
+      send_resp(conn, 503, "SERVICE_PENDING")
     end
   end
 
@@ -18,7 +18,7 @@ defmodule Probex.Router do
     if ProbeServer.live?(opts) do
       send_resp(conn, 200, "SERVICE_READY")
     else
-      send_resp(conn, 503, "SERVICE_UNAVAILABLE")
+      send_resp(conn, 503, "SERVICE_DOWN")
     end
   end
 end
