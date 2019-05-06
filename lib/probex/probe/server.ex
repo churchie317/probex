@@ -39,7 +39,7 @@ defmodule Probex.Probe.Server do
   def handle_continue(_continue, state), do: {:noreply, state}
 
   @impl true
-  def handle_info(msg, state), do: IO.inspect(msg) && {:noreply, state}
+  def handle_info(_msg, state), do: {:noreply, state}
 
   @impl true
   def terminate(_reason, probe), do: Probe.stash(probe)

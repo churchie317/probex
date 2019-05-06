@@ -21,7 +21,6 @@ defmodule Probex.Probe.Stash do
 
   @impl true
   def handle_cast({:set_probe, probe}, _state) do
-    IO.inspect(probe)
     {:noreply, probe}
   end
 
